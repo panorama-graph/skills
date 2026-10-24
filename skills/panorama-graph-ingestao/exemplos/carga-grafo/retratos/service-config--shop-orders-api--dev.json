@@ -1,7 +1,7 @@
 {
   "source": "service-config",
   "scope": {
-    "component": "shop/orders-api",
+    "component": "orders-api",
     "environment": "dev"
   },
   "observedAt": "2026-10-23T12:00:00Z",
@@ -26,7 +26,7 @@
     },
     {
       "type": "USES_RESOURCE",
-      "from": "component:shop/orders-api",
+      "from": "component:orders-api",
       "to": "resource:dev/postgres/orders",
       "props": {
         "access": "read-write"
@@ -35,7 +35,7 @@
     },
     {
       "type": "USES_RESOURCE",
-      "from": "component:shop/orders-api",
+      "from": "component:orders-api",
       "to": "resource:dev/kafka",
       "props": {
         "access": "read-write"

@@ -1,12 +1,12 @@
 {
   "source": "openapi",
   "scope": {
-    "component": "shop/orders-api"
+    "component": "orders-api"
   },
   "observedAt": "2026-10-23T12:00:00Z",
   "evidenceBase": "shop/orders-api@3f2c9e1a7b5d4c3e2f1a0b9c8d7e6f5a4b3c2d1e:",
   "revision": {
-    "component": "component:shop/orders-api",
+    "component": "component:orders-api",
     "commit": "3f2c9e1a7b5d4c3e2f1a0b9c8d7e6f5a4b3c2d1e",
     "version": "1.4.0"
   },
@@ -48,7 +48,7 @@
   "relations": [
     {
       "type": "PROVIDES",
-      "from": "component:shop/orders-api",
+      "from": "component:orders-api",
       "to": "api:orders-api/http",
       "evidence": "src/main/java/com/example/shop/orders/OrdersApplication.java"
     },

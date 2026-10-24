@@ -14,7 +14,7 @@ O que nenhuma seção cobre não entra: registre no `LACUNAS.md` o que viu e por
 | Tipo do componente | Serviço HTTP ou de eventos: `service`. BFF de um frontend: `bff`. SPA ou app: `frontend`. Roda e termina (CronJob, batch): `job`. Publicado para outros importarem: `library` | `opcoes.json` → `kind` |
 | Nome de serviço | Spring: `spring.application.name` em `application.yml`/`.properties` ou `bootstrap.yml`. Outras stacks: o nome no chart, no `docker-compose`, no `Service` do Kubernetes ou na URL com que os outros o chamam | `application.json` → `name` |
 
-O nome de serviço é o que liga provedor e consumidores: nomeia a API (`api:<serviço>/http`) e os endpoints. É o nome do código, sem a versão que vá no host: se os clientes chamam `orders-api-v2`, o serviço continua `orders-api` (veja [Versões de APIs e tópicos](#versões-de-apis-e-tópicos)). Sem `application.json`, o grafo usa o fim do caminho do repositório.
+O nome de serviço é o nome do componente, a chave dele (`component:<serviço>`), e o que liga provedor e consumidores: nomeia a API (`api:<serviço>/http`) e os endpoints. É o nome do código, sem a versão que vá no host: se os clientes chamam `orders-api-v2`, o serviço continua `orders-api` (veja [Versões de APIs e tópicos](#versões-de-apis-e-tópicos)). Sem `application.json`, o grafo usa o fim do caminho do repositório.
 
 ## Stack
 

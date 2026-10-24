@@ -29,10 +29,10 @@ Um documento de texto (wiki, apresentação, README de outro time) diz o que alg
 
 | Fato | Onde | Vai para |
 |---|---|---|
-| Caminho e host do repositório | `git remote get-url origin`. O caminho é o que vem depois do host, sem `.git` (`git@git.example.com:shop/orders-api.git` → `shop/orders-api`). Tire usuário e token da URL | `component:<caminho>`, `repo:<host>/<caminho>` (`url` sem credencial), `HOSTED_IN` |
+| Caminho e host do repositório | `git remote get-url origin`. O caminho é o que vem depois do host, sem `.git` (`git@git.example.com:shop/orders-api.git` → `shop/orders-api`). Tire usuário e token da URL | `repo:<host>/<caminho>` (`url` sem credencial), `HOSTED_IN` |
 | Commit e versão do artefato | `git rev-parse HEAD`. A versão vem do `pom.xml`, do `build.gradle`, do `package.json` ou da tag. Com mudanças não commitadas, avise | `revision` dos retratos do componente |
 | Tipo | Serviço HTTP ou de eventos: `service`. BFF de um frontend: `bff`. SPA ou app: `frontend`. Roda e termina (CronJob, batch): `job`. Publicado para outros importarem: `library` | `Component.kind` |
-| Nome de serviço | Spring: `spring.application.name` (`application.yml`, `bootstrap.yml`). Outras stacks: o nome no chart, no `Service` do Kubernetes ou no host com que os outros o chamam. Sem nada disso, o fim do caminho do repositório | Nomeia a API e os endpoints: `api:<serviço>/http` |
+| Nome de serviço | Spring: `spring.application.name` (`application.yml`, `bootstrap.yml`). Outras stacks: o nome no chart, no `Service` do Kubernetes ou no host com que os outros o chamam. Sem nada disso, o fim do caminho do repositório | É a chave do componente, `component:<serviço>`, e nomeia a API e os endpoints: `api:<serviço>/http` |
 | Pacote publicado | `group`/`artifactId` com publicação configurada (`maven-publish`, `distributionManagement`), `name` de um `package.json` publicado | `lib:...`, `PRODUCES` (`version`) |
 
 O nome de serviço liga provedor e consumidores. É o nome do código, sem a versão que vá no host. Se os clientes chamam `orders-api-v2`, o serviço continua `orders-api` (veja [Versões](#versões-de-apis-e-tópicos)).
@@ -166,7 +166,7 @@ Interação sem operação conhecida fica só no `CONSUMES`. Não gere pact: ele
 | GORM (`TableName()`), `database/sql` com SQL literal, `mongo-driver` (`Collection("x")`) | Pelo modelo ou pela chamada |
 | SQLAlchemy (`__tablename__`), Django (`Meta.db_table`), `pymongo` | Pelo modelo ou pela chamada |
 
-- **`Dataset`:** a chave `dataset:<caminho do componente>/<nome>`.
+- **`Dataset`:** a chave `dataset:<componente>/<nome>`.
 - **`OWNS_DATA`:** só quando o mapeamento é do próprio componente, com a evidência na entidade.
 - **`READS` e `WRITES`:** pelos métodos usados no código, com a evidência na linha da primeira chamada.
 - **Fica de fora:** SQL montado em execução e nome que não é literal, que vão para as lacunas.
@@ -206,7 +206,7 @@ Uma versão de API exposta à parte (o Service `orders-api-v2`, que seleciona os
   "evidenceBase": "prd/orders/Service/orders-api-v2",
   "nodes": [{ "key": "api:orders-api/v2/http", "type": "Api", "props": { "kind": "http", "version": "v2", "name": "orders-api-v2" } }],
   "relations": [
-    { "type": "PROVIDES", "from": "component:shop/orders-api", "to": "api:orders-api/v2/http" },
+    { "type": "PROVIDES", "from": "component:orders-api", "to": "api:orders-api/v2/http" },
     { "type": "VERSION_OF", "from": "api:orders-api/v2/http", "to": "api:orders-api/http" }
   ]
 }

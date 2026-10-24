@@ -1,12 +1,12 @@
 {
   "source": "http-clients",
   "scope": {
-    "component": "shop/orders-api"
+    "component": "orders-api"
   },
   "observedAt": "2026-10-23T12:00:00Z",
   "evidenceBase": "shop/orders-api@3f2c9e1a7b5d4c3e2f1a0b9c8d7e6f5a4b3c2d1e:",
   "revision": {
-    "component": "component:shop/orders-api",
+    "component": "component:orders-api",
     "commit": "3f2c9e1a7b5d4c3e2f1a0b9c8d7e6f5a4b3c2d1e",
     "version": "1.4.0"
   },
@@ -14,13 +14,13 @@
   "relations": [
     {
       "type": "CONSUMES",
-      "from": "component:shop/orders-api",
+      "from": "component:orders-api",
       "to": "api:catalog-api/v1/http",
       "evidence": "src/main/java/com/example/shop/orders/catalog/CatalogClient.java"
     },
     {
       "type": "CALLS",
-      "from": "component:shop/orders-api",
+      "from": "component:orders-api",
       "to": "endpoint:catalog-api/GET /products/{}",
       "evidence": "src/main/java/com/example/shop/orders/catalog/CatalogClient.java#getProduct"
     }

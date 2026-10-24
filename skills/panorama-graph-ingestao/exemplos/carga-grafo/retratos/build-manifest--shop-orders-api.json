@@ -1,18 +1,18 @@
 {
   "source": "build-manifest",
   "scope": {
-    "component": "shop/orders-api"
+    "component": "orders-api"
   },
   "observedAt": "2026-10-23T12:00:00Z",
   "evidenceBase": "shop/orders-api@3f2c9e1a7b5d4c3e2f1a0b9c8d7e6f5a4b3c2d1e:",
   "revision": {
-    "component": "component:shop/orders-api",
+    "component": "component:orders-api",
     "commit": "3f2c9e1a7b5d4c3e2f1a0b9c8d7e6f5a4b3c2d1e",
     "version": "1.4.0"
   },
   "nodes": [
     {
-      "key": "component:shop/orders-api",
+      "key": "component:orders-api",
       "type": "Component",
       "props": {
         "name": "orders-api",
@@ -57,13 +57,13 @@
   "relations": [
     {
       "type": "HOSTED_IN",
-      "from": "component:shop/orders-api",
+      "from": "component:orders-api",
       "to": "repo:git.example.com/shop/orders-api",
       "evidence": "pom.xml#L14"
     },
     {
       "type": "BUILT_WITH",
-      "from": "component:shop/orders-api",
+      "from": "component:orders-api",
       "to": "tech:java",
       "props": {
         "version": "21"
@@ -72,7 +72,7 @@
     },
     {
       "type": "BUILT_WITH",
-      "from": "component:shop/orders-api",
+      "from": "component:orders-api",
       "to": "tech:maven",
       "props": {
         "version": "3.9.9"
@@ -81,7 +81,7 @@
     },
     {
       "type": "BUILT_WITH",
-      "from": "component:shop/orders-api",
+      "from": "component:orders-api",
       "to": "tech:spring-boot",
       "props": {
         "version": "3.4.8"

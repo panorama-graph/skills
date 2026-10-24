@@ -23,7 +23,7 @@
       "evidence": "catalog-info.yaml#L8"
     },
     {
-      "key": "component:shop/orders-api",
+      "key": "component:orders-api",
       "type": "Component",
       "props": {
         "kind": "service",
@@ -42,7 +42,7 @@
     },
     {
       "type": "PART_OF",
-      "from": "component:shop/orders-api",
+      "from": "component:orders-api",
       "to": "system:shop/orders",
       "evidence": "catalog-info.yaml#L8"
     }

@@ -14,11 +14,11 @@ snapshots:
     nodes:
       - { key: domain:shop, name: Loja, evidence: README.md#L3 }
       - { key: system:shop/orders, name: Pedidos, evidence: README.md#L5 }
-      - { key: component:shop/orders-api, kind: service, name: orders-api, evidence: README.md#L1 }
+      - { key: component:orders-api, kind: service, name: orders-api, evidence: README.md#L1 }
     relations:
       - { type: PART_OF, from: system:shop/orders, to: domain:shop, evidence: README.md#L5 }
-      - { type: PART_OF, from: component:shop/orders-api, to: system:shop/orders, evidence: README.md#L5 }
-      - { type: OWNED_BY, from: component:shop/orders-api, to: group:orders-team, evidence: CODEOWNERS#L1 }
+      - { type: PART_OF, from: component:orders-api, to: system:shop/orders, evidence: README.md#L5 }
+      - { type: OWNED_BY, from: component:orders-api, to: group:orders-team, evidence: CODEOWNERS#L1 }
 ```
 
 - **O tipo vem do prefixo da chave** (`group:` é `Group`). Os demais campos do item são propriedades; uma propriedade ou um valor fora do modelo recusa o retrato inteiro.
@@ -34,7 +34,7 @@ Use as mesmas dos adaptadores que um dia vão substituir esta carga:
 | `catalogo.yaml` | `service-catalog` | `{ catalog: <organização> }` | `Domain`, `System`, `PART_OF`, `OWNED_BY`; componentes de infraestrutura (`kind: infra`) |
 | `diretorio.yaml` | `directory` | `{ tenant: <organização> }` | `OrgLevel`, `Group`, `AT_LEVEL`, `Person`, `PART_OF` entre grupos, `MEMBER_OF` |
 | `infra-<ambiente>.yaml` | `k8s-infra` | `{ cluster: <ambiente> }` | `Environment`, `Resource` (servidores, brokers, bancos), `IN_ENVIRONMENT`, `RUNS`, `HOSTED_ON` |
-| `config-<componente>.yaml` | `service-config` | `{ component: <caminho>, environment: <ambiente> }` | `USES_RESOURCE` (o componente usa o banco, o broker), `HOSTED_ON` (o banco no servidor, o tópico no broker) |
+| `config-<componente>.yaml` | `service-config` | `{ component: <nome>, environment: <ambiente> }` | `USES_RESOURCE` (o componente usa o banco, o broker), `HOSTED_ON` (o banco no servidor, o tópico no broker) |
 | `implantacao-<namespace>.yaml` | `k8s-deployments` | `{ cluster: <ambiente>, namespace: <namespace> }` | Só as versões expostas na infraestrutura: `Api` com `version`, `PROVIDES`, `VERSION_OF` (veja abaixo) |
 
 **Cada envio substitui o retrato anterior da mesma fonte e escopo, e o que sumiu vira `stale`.** O catálogo e o diretório são um retrato só para a organização inteira: se você já importou três repositórios e agora importa mais dois, o `catalogo.yaml` precisa ter os cinco. Antes de gerar, veja se a pasta de carga já tem os arquivos de uma rodada anterior e acrescente a eles; com o grafo no ar, `sources_status` mostra os escopos que já existem. Já o `service-config` é por componente e ambiente, e não interfere nos outros.
@@ -56,13 +56,13 @@ Fontes diferentes só falam do mesmo nó se usarem a mesma chave. Resumo das rec
 
 | Nó | Chave | Exemplo |
 |---|---|---|
-| `Component` | `component:<caminho do repositório>` | `component:shop/orders-api` |
+| `Component` | `component:<nome>`, o nome de serviço, único na organização | `component:orders-api` |
 | `Repository` | `repo:<host>/<caminho>` | `repo:git.example.com/shop/orders-api` |
 | `Api` | `api:<serviço>/http`; numa versão, `api:<serviço>/<versão>/http` | `api:orders-api/http`, `api:orders-api/v2/http` |
 | `Endpoint` | `endpoint:<serviço>/<MÉTODO> <caminho>`, com os parâmetros sem nome; numa versão do código, `endpoint:<serviço>/<versão>/<MÉTODO> <caminho>` | `endpoint:orders-api/GET /orders/{}` |
 | `Topic` | `topic:<endereço do canal>` | `topic:shop.orders.order-created` |
 | `Technology` | `tech:<nome>` | `tech:postgresql` |
-| `Dataset` | `dataset:<caminho do componente>/<nome>` | `dataset:shop/orders-api/orders` |
+| `Dataset` | `dataset:<componente>/<nome>` | `dataset:orders-api/orders` |
 | `Resource` | instância `resource:<ambiente>/<nome>`; recurso lógico `resource:<ambiente>/<instância>/<nome>` | `resource:dev/postgres`, `resource:dev/postgres/orders` |
 | `Environment` | `env:<ambiente>`, o mesmo nome do primeiro segmento da chave do recurso | `env:dev` |
 | `Domain`, `System`, `Group` | o identificador curto na fonte | `domain:shop`, `system:shop/orders`, `group:orders-team` |
@@ -93,13 +93,13 @@ snapshots:
 # config-orders-api.yaml
 snapshots:
   - source: service-config
-    scope: { component: shop/orders-api, environment: dev }
+    scope: { component: orders-api, environment: dev }
     evidenceBase: "shop/orders-api@3f2c9e1a7b:deploy/values-dev.yaml#"
     nodes:
       - { key: resource:dev/postgres/orders, kind: database, name: orders, evidence: env.SPRING_DATASOURCE_URL }
     relations:
       - { type: HOSTED_ON, from: resource:dev/postgres/orders, to: resource:dev/postgres, evidence: env.SPRING_DATASOURCE_URL }
-      - { type: USES_RESOURCE, from: component:shop/orders-api, to: resource:dev/postgres/orders, access: read-write, evidence: env.SPRING_DATASOURCE_URL }
+      - { type: USES_RESOURCE, from: component:orders-api, to: resource:dev/postgres/orders, access: read-write, evidence: env.SPRING_DATASOURCE_URL }
 ```
 
 O `k8s-infra` também é um retrato por ambiente para a organização inteira: o mesmo cuidado do catálogo vale para ele.
@@ -119,7 +119,7 @@ snapshots:
     nodes:
       - { key: api:orders-api/v2/http, kind: http, version: v2, name: orders-api-v2 }
     relations:
-      - { type: PROVIDES, from: component:shop/orders-api, to: api:orders-api/v2/http }
+      - { type: PROVIDES, from: component:orders-api, to: api:orders-api/v2/http }
       - { type: VERSION_OF, from: api:orders-api/v2/http, to: api:orders-api/http }
 ```
 

@@ -14,10 +14,10 @@ O `enviar.sh` envia os arquivos em ordem de nome. A ordem entre fontes não impo
 ```json
 {
   "source": "openapi",
-  "scope": { "component": "shop/orders-api" },
+  "scope": { "component": "orders-api" },
   "observedAt": "2026-10-23T12:00:00Z",
   "evidenceBase": "shop/orders-api@3f2c9e1a7b5d4c3e2f1a0b9c8d7e6f5a4b3c2d1e:",
-  "revision": { "component": "component:shop/orders-api", "commit": "3f2c9e1a7b5d4c3e2f1a0b9c8d7e6f5a4b3c2d1e", "version": "1.4.0" },
+  "revision": { "component": "component:orders-api", "commit": "3f2c9e1a7b5d4c3e2f1a0b9c8d7e6f5a4b3c2d1e", "version": "1.4.0" },
   "nodes": [
     { "key": "api:orders-api/http", "type": "Api", "props": { "name": "orders-api", "kind": "http" },
       "evidence": "src/main/java/com/example/shop/orders/OrdersApplication.java" },
@@ -26,7 +26,7 @@ O `enviar.sh` envia os arquivos em ordem de nome. A ordem entre fontes não impo
       "evidence": "src/main/java/com/example/shop/orders/OrderController.java#L42" }
   ],
   "relations": [
-    { "type": "PROVIDES", "from": "component:shop/orders-api", "to": "api:orders-api/http",
+    { "type": "PROVIDES", "from": "component:orders-api", "to": "api:orders-api/http",
       "evidence": "src/main/java/com/example/shop/orders/OrdersApplication.java" },
     { "type": "HAS_ENDPOINT", "from": "api:orders-api/http", "to": "endpoint:orders-api/GET /orders/{}",
       "evidence": "src/main/java/com/example/shop/orders/OrderController.java#L42" }
@@ -70,8 +70,8 @@ Qualquer uma destas, violada, recusa o retrato inteiro com `422`:
 
 As receitas estão em [../produto/MODELO.md](../produto/MODELO.md#receitas-de-chave), e as regras de normalização em [../produto/ADAPTADOR.md](../produto/ADAPTADOR.md#receitas-de-chave). Os pontos em que mais se erra:
 
-- **Componente:** o caminho do repositório, sem host. **Repositório:** com o host.
-- **API e endpoint:** pelo nome de serviço, e não pelo caminho do repositório.
+- **Componente:** o nome de serviço, único na organização. **Repositório:** o caminho, com o host.
+- **API e endpoint:** pelo nome de serviço, o mesmo da chave do componente.
 - **Parâmetros do endpoint:** viram `{}` na chave (`/orders/{}`) e mantêm o nome na propriedade `path` (`/orders/{id}`).
 - **Biblioteca:** sem versão. A versão vai na relação (`DEPENDS_ON.version`).
 - **Contrato de pact:** usa a seta `→` (U+2192), e não `->`.

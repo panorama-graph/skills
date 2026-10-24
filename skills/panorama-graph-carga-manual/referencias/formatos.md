@@ -2,7 +2,7 @@
 
 O pacote é o mesmo diretório `build/architecture/` que o plugin Gradle gera, e o receptor o traduz com as mesmas regras. Os formatos próprios do produto têm JSON Schema em [../schemas/](../schemas/), a fonte da verdade: em caso de dúvida, vale o schema. Os outros são padrões de fora (OpenAPI, AsyncAPI, CycloneDX, Pact).
 
-Cada arquivo vira um retrato de uma fonte, com escopo `{ component: <caminho do repositório> }`:
+Cada arquivo vira um retrato de uma fonte, com escopo `{ component: <nome do componente> }`:
 
 | Arquivo | Fonte | Formato | O que vira no grafo |
 |---|---|---|---|
@@ -37,7 +37,7 @@ Um arquivo ausente não gera retrato: o grafo mantém o que tinha daquela fonte.
 }
 ```
 
-O caminho e o host do repositório saem de `component.repository` (ssh, scp ou https, sem credencial): o componente vira `component:shop/orders-api`. É essa chave que o catálogo, as implantações e as rotas precisam usar.
+O caminho e o host do repositório saem de `component.repository` (ssh, scp ou https, sem credencial) e viram o `repo:<host>/<caminho>`. O componente é o nome de serviço, do `application.json` (sem ele, o fim do caminho do repositório): `component:orders-api`. É essa chave que o catálogo, as implantações e as rotas precisam usar.
 
 ## application.json
 
